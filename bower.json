@@ -1,0 +1,24 @@
+{
+  "name": "flux-comments",
+  "homepage": "https://github.com/SergeyFrancev/flux-comments",
+  "authors": [
+    "hector <drshteyn@gmail.vom>"
+  ],
+  "description": "Comments for flux",
+  "main": "index.js",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "mach3Lib/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.1",
+    "rxjs": "~4.0.6"
+  }
+}

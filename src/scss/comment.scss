@@ -1,0 +1,101 @@
+$ava-height: 48px;
+$ava-width: 48px;
+
+.c-s{
+  font-size: 14px;
+  font-weight: 400;
+  display: block;
+  color: rgb(66,47,47);
+  margin: 0px 0px 5px 0px;
+
+  .c-i{
+    display: block;
+    margin: 0px 21px 0px 21px;
+    padding: 10px 0px 10px 0px;
+
+    &.second{
+      margin: 0px 21px 0px 79px;
+    }
+
+    .ava{
+      width: $ava-width;
+      height: $ava-height;
+      float: left;
+      margin: 0px -58px 0 0;
+      overflow: hidden;
+      border-radius: 3px;
+
+      img{
+        width: $ava-width;
+      }
+    }
+
+    .c-h{
+      font-size: 14px;
+      font-weight: 600;
+      display: block;
+      margin: -5px 0px 0px 0px;
+
+      .u-n{
+        font-size: 14px;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .c-d{
+        font-size: 13px;
+        font-weight: 400;
+        display: inline-block;
+        color: rgba(121,121,121,0.7);
+        margin: 0px 0px 0px 10px;
+      }
+    }
+
+    .c-t{
+      margin: 0px 0px 0px 0px;
+      padding: 0px 0px 0px 58px;
+
+      .m-t{
+        font-weight: 400;
+        position: relative;
+        line-height: 1.4em;
+        transition: all .1s linear;
+        -webkit-transition: all .1s linear;
+        -moz-transition: all .1s linear;
+        -o-transition: all .1s linear;
+        overflow-x: hidden;
+        -webkit-touch-callout: text;
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
+
+      .c-r{
+        font-size: 13px;
+        min-height: 18px;
+
+        a{
+          color: rgba(121,121,121,0.7);
+          text-decoration: none;
+          transition: all .1s linear;
+          -webkit-transition: all .1s linear;
+          -moz-transition: all .1s linear;
+          -o-transition: all .1s linear;
+          cursor: pointer;
+        }
+
+        .drop-button, .edit-button{
+          margin: 0px 0px 0px 12px;
+        }
+      }
+    }
+  }
+}
+
+.c-h {
+  width: 990px;
+  position: relative;
+  margin: 0px auto 0px auto;
+}

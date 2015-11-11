@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WebPack test</title>
+	<!--<script src="/node_modules/babel-polyfill/browser.js"></script>-->
+	<link rel="stylesheet" href="/build/styleComment.css">
+	<script src="/bower_components/react/react.js"></script>
+	<script src="/bower_components/react/react-dom.min.js"></script>
+	<script src="/bower_components/rxjs/dist/rx.all.min.js"></script>
+	<script src="/build/common.js"></script>
+	<script src="/build/CommentBox.js"></script>
+</head>
+<body>
+<div id="comment-box"></div>
+<script>
+	ReactDOM.render(
+		React.createElement(appCommentBox.default, {}),
+		document.getElementById('comment-box')
+	);
+</script>
+</body>
+</html>
