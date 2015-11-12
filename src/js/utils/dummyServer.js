@@ -52,8 +52,7 @@ export default {
 			callback({
 				"name": "HectorTwist",
 				"avatar": "/img/ava.jpg",
-				"id": "3341",
-				"canDrop": true
+				"id": "3341"
 			});
 		}, 500);
 	}

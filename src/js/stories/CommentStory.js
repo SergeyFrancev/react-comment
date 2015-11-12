@@ -38,4 +38,6 @@ class CommentStory extends Dispatcher {
 	get hasMore(){return this._hasMore}
 }
 
-export default CommentStory;
+let storeInstance = new CommentStory();
+
+export default storeInstance;
