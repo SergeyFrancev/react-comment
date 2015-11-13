@@ -1,60 +1,107 @@
 import React from 'react';
 import CommentStory from '../stories/CommentStory.js';
 import UserStory from '../stories/UserStory.js';
-import Comment from './Comment.js';
+import CommentView from './Comment.js';
 import CommentForm from './CommentForm.js';
 
 class CommentBox extends React.Component {
 	constructor(props){
 		super(props);
+
+		this.commentStory = new CommentStory();
+		this.userStory = new UserStory();
+
 		this.state = {
-			comments: CommentStory.comments,
-			user: UserStory.user,
+			comments: this.commentStory.comments,
+			user: this.userStory.user,
 			hasMore: true,
 			replyOn: null,
 			editOn: null
 		};
 
-		CommentStory.on("change")
-			.subscribeOnNext(data => this.updateComments());
+		this.commentStory.on("change")
+			.subscribeOnNext(this.updateComments.bind(this));
 
-		UserStory.on("change")
-			.subscribeOnNext(data => this.setState({user: UserStory.user}));
+		this.userStory.on("change")
+			.subscribeOnNext(this.updateUser.bind(this));
 
-		CommentStory.loadMore();
+		this.commentStory.loadMore();
+	}
+
+	updateUser(){
+		this.setState({
+			user: this.userStory.user
+		});
+		super.forceUpdate();
 	}
 
 	updateComments(){
 		this.setState({
-			comments: CommentStory.comments,
-			hasMore: CommentStory.hasMore || false
+			comments: this.commentStory.comments,
+			hasMore: this.commentStory.hasMore || false
 		});
 	}
 
-	handlerSave(commentData){
-		console.log('save comment', commentData);
+	handlerSave(e, comment){
+		console.log(comment);
+		this.commentStory.saveComment(comment);
+		this.resetFormComment();
 	}
 
-	handlerAuth(){
+	static handlerAuth(){
 		console.log('auth');
 	}
 
-	handlerFocus(){
+	createNewComment(){
+		return this.commentStory.createComment(this.state.user);
+	}
+
+	handlerFocus(e, comment){
+		if([this.state.editOn, this.state.replyOn].indexOf(comment) !== -1)
+			this.resetFormComment();
+	}
+
+	static handlerDropComment(e, comment){
+		this.commentStory.drop(comment);
+		e.stopPropagation();
+	}
+
+	resetFormComment(){
 		this.setState({
 			replyOn: null,
 			editOn: null
-		})
+		});
 	}
 
-	renderCommentForm(comment = {parent_id: null, id: null, forUser: null}){
-		if(this.state.user){
+	handlerEditComment(e, comment){
+		this.resetFormComment();
+		this.setState({editOn: comment});
+		e.stopPropagation();
+	}
+
+	handlerReplyComment(e, comment){
+		if(comment !== this.state.replyOn){
+			this.resetFormComment();
+			this.setState({replyOn: comment});
+		}
+		e.stopPropagation();
+	}
+
+	renderCommentForm(setting = {parent: null, primary: false, getNewComment: false}){
+		if(this.state.user.id !== null){
+			let comment = setting.comment;
 			let props = {
-				key: 'comment-form-p-' + comment.parent_id + '-i-' + comment.id,
-				onSend: this.handlerSave,
-				onFocus: this.handler,
-				parent_id: comment.parent_id,
-				id: comment.id
+				key: 'comment-form-i-' + comment.id + '-' +((setting.isChild) ? setting.parent.id : 'null'),
+				onSend: this.handlerSave.bind(this),
+				parent: setting.parent,
+				user: this.state.user,
+				comment: comment,
+				getNewComment: setting.getNewComment
 			};
+
+			if(setting.primary)
+				props.onFocus = this.resetFormComment.bind(this);
+
 			return CommentForm(props);
 		}
 		else{
@@ -65,32 +112,30 @@ class CommentBox extends React.Component {
 		}
 	}
 
-	handlerDropComment(){
-
-	}
-
-	handlserEditComment(){
-
-	}
-
-	handlerReplyComment(e, comment){
-		this.setState({replyOn: comment});
-		e.stopPropagation();
-	}
-
 	renderComments(){
 		let comments = [];
 		for(let i = 0; i < this.state.comments.length; i++){
 			let comment = this.state.comments[i];
-			comment.key = 'comment-' + comment.id;
-			comment.onReply = ((e) => this.handlerReplyComment(e, comment));
-			comments.push(Comment(comment));
 
-			if(comment === this.state.replyOn)
-			{
+			if(comment === this.state.editOn){
+				comments.push(this.renderCommentForm({comment: comment}));
+			}
+			else{
+				let conf = {
+					key: 'comment-' + comment.id,
+					comment: comment,
+					user: comment.user,
+					onReply: ((e) => this.handlerReplyComment(e, comment)),
+					onEdit: ((e) => this.handlerEditComment(e, comment)),
+					onDrop: ((e) => this.handlerDropComment(e, comment))
+				};
+				comments.push(CommentView(conf));
+			}
+
+			if(comment === this.state.replyOn){
 				let settingForm = {
-					parent_id:comment.id,
-					forUser: comment.userName,
+					parent: comment,
+					comment: this.createNewComment(),
 					isFocus: true
 				};
 
@@ -102,7 +147,6 @@ class CommentBox extends React.Component {
 	}
 
 	render(){
-
 		//if(this.state.hasMore){
 		//	comments.push(React.createElement("div", {
 		//		className: 'more-comments',
@@ -115,7 +159,11 @@ class CommentBox extends React.Component {
 		//o.fileUpload = this.props.fileUpload;
 		return (
 			React.createElement("div", {className: 'c-s'},
-				this.renderCommentForm(),
+				this.renderCommentForm({
+					comment: this.createNewComment(),
+					primary: true,
+					getNewComment: this.createNewComment.bind(this)
+				}),
 				this.renderComments()
 			)
 		);

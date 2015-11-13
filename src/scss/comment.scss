@@ -10,22 +10,22 @@ $ava-width: 48px;
   font-weight: 400;
   display: block;
   color: rgb(66,47,47);
-  margin: 0px 0px 5px 0px;
+  margin: 0 0 5px 0;
 
   .c-i{
     display: block;
-    margin: 0px 21px 0px 21px;
-    padding: 10px 0px 10px 0px;
+    margin: 0 21px 0 21px;
+    padding: 10px 0 10px 0;
 
     &.second{
-      margin: 0px 21px 0px 79px;
+      margin: 0 21px 0 79px;
     }
 
     .ava{
       width: $ava-width;
       height: $ava-height;
       float: left;
-      margin: 0px -58px 0 0;
+      margin: 0 -58px 0 0;
       overflow: hidden;
       border-radius: 3px;
 
@@ -38,7 +38,7 @@ $ava-width: 48px;
       font-size: 14px;
       font-weight: 600;
       display: block;
-      margin: -5px 0px 0px 0px;
+      margin: -5px 0 0 0;
 
       .u-n{
         font-size: 14px;
@@ -51,13 +51,13 @@ $ava-width: 48px;
         font-weight: 400;
         display: inline-block;
         color: rgba(121,121,121,0.7);
-        margin: 0px 0px 0px 10px;
+        margin: 0 0 0 10px;
       }
     }
 
     .c-t{
-      margin: 0px 0px 0px 0px;
-      padding: 0px 0px 0px 58px;
+      margin: 0 0 0 0;
+      padding: 0 0 0 58px;
 
       .m-t{
         font-weight: 400;
@@ -68,9 +68,7 @@ $ava-width: 48px;
         -moz-transition: all .1s linear;
         -o-transition: all .1s linear;
         overflow-x: hidden;
-        -webkit-touch-callout: text;
         -webkit-user-select: text;
-        -khtml-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;
         user-select: text;
@@ -91,7 +89,7 @@ $ava-width: 48px;
         }
 
         .drop-button, .edit-button{
-          margin: 0px 0px 0px 12px;
+          margin: 0 0 0 12px;
         }
       }
     }
@@ -101,18 +99,18 @@ $ava-width: 48px;
 .c-h {
   width: 990px;
   position: relative;
-  margin: 0px auto 0px auto;
+  margin: 0 auto 0 auto;
 }
 
 .c-t-b {
-  margin: 0px 0px 0px 0px;
-  padding: 0px 0px 0px 53px;
+  margin: 0 0 0 0;
+  padding: 0 0 0 53px;
 }
 
 .t-b-h {
   border: 1px solid #ccc;
   position: relative;
-  padding: 0px 8px 0px 8px;
+  padding: 0 8px 0 8px;
   overflow: hidden;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -133,7 +131,7 @@ $ava-width: 48px;
   }
 
   textarea {
-    font-family: Open Sans;
+    font-family: Open Sans, monospace;
     font-weight: 400;
     font-size: 14px;
     height: 38px;
@@ -141,8 +139,8 @@ $ava-width: 48px;
     resize: none;
     border: 0;
     background-color: transparent;
-    padding: 0px;
-    margin: 5px 0px 4px 0px;
+    padding: 0;
+    margin: 5px 0 4px 0;
     width: 100%;
     outline: none;
     overflow: hidden;
@@ -155,11 +153,11 @@ $ava-width: 48px;
 .c-underbar {
   width: 100%;
   display: inline-block;
-  margin: 0px 0px -4px 0px;
+  margin: 0 0 -4px 0;
 }
 
 .char-counter {
-  margin: 0px 0px 0px 55px;
+  margin: 0 0 0 55px;
   display: inline-block;
   font-style: italic;
   color: rgba(0,0,0,0.5);
@@ -171,7 +169,7 @@ $ava-width: 48px;
   }
 
   #charNum {
-    margin: 0px 0px 0px 4px;
+    margin: 0 0 0 4px;
     font-weight: 600;
   }
 }
@@ -189,12 +187,12 @@ $ava-width: 48px;
 
 .btn {
   min-width: 100px;
-  font-family: Open Sans;
+  font-family: Open Sans, monospace;
   background-color: rgba(255,255,255,1.0);
   color: rgba(80,65,65,1.0);
   border: 1px solid rgba(91,79,79,0.4);
   border-radius: 4px;
-  padding: 0px;
+  padding: 0;
   margin: 3px 1px 3px 1px;
   display: inline-block;
   text-decoration: none;
@@ -205,8 +203,8 @@ $ava-width: 48px;
     font-style: normal;
     font-weight: 400;
     display: block;
-    margin: 0px 11px 0px 11px;
-    padding: 0px 0px 0px 0px;
+    margin: 0 11px 0 11px;
+    padding: 0 0 0 0;
     line-height: 24px;
   }
 }

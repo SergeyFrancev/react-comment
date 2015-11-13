@@ -2,6 +2,7 @@
 
 import server from '../utils/dummyServer.js';
 import Dispatcher from '../dispatchers/dispatcher.js';
+import User from '../models/User.js';
 
 class UserStory extends Dispatcher {
 	constructor(){
@@ -10,22 +11,18 @@ class UserStory extends Dispatcher {
 	}
 
 	set user(user){
-		this._user = user;
+		this._user = new User(user);
 		this.emit('change');
 	}
 
 	get user(){
-		if(!this._user){
-			if(this._user === null)
-				server.getUser(user => this.user = user);
-			this._user = false;
-			return null;
+		if(this._user === null){
+			server.getUser(user => this.user = user);
+			this._user = new User();
 		}
-		else
-			return this._user;
+
+		return this._user;
 	}
 }
 
-let storeInstance = new UserStory();
-
-export default storeInstance;
+export default UserStory;

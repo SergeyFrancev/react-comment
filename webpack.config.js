@@ -72,14 +72,14 @@ module.exports = {
 			 minChunks: function(module, count){
 			 return count >= 2;
 			 }*/
-		})/*,
-		 new webpack.optimize.UglifyJsPlugin({
-		 compress: {
-		 warnings: false,
-		 drop_console: true,
-		 unsafe: true
-		 }
-		 })*/
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false,
+				drop_console: true,
+				unsafe: true
+			}
+		})
 	],
 
 	externals: {

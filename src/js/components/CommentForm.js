@@ -4,85 +4,87 @@
 'use strict';
 
 import React from 'react';
-import UserStory from '../stories/UserStory.js';
 
 const maxLengthMessage = 150;
 
 class CommentForm extends React.Component {
 	constructor(props){
-		super(props);
-		let mes = '';
-		if(props.forUser !== null)
-			mes = props.forUser + ', ';
-
+		super();
 		this.state = {
-			message: mes + props.message,
-			user: UserStory.user,
+			isFocus: props.isFocus,
 			isLoading: false,
-			isFocus: props.isFocus
+			comment: props.comment
 		};
-
-		UserStory.on('change')
-			.subscribeOnNext(data => this.setState({user: UserStory.user}));
 	}
 
 	handlerChange(e){
-		if(!this.state.isLoading)
-			this.setState({message: e.target.value});
+		if(!this.state.isLoading){
+			this.state.comment.message = e.target.value;
+			this.setState({comment: this.state.comment});
+		}
 	}
 
 	handlerFocus(e){
-		var o = {};
-		o.isFocus = (e.type == "focus");
-		this.setState(o);
+		this.setState({
+			isFocus: (e.type == "focus")
+		});
+		this.props.onFocus(e, this.state.comment);
 	}
 
 	handlerKeyDown(e){
 
 	}
 
-	handlerSend(){
-		if(this.state.message.length > 0 && !this.state.isLoading)
-		{
-			var out = this.props;
-			for(var i in this.state)
-				if(this.state.hasOwnProperty(i))
-					out[i] = this.state[i];
-			this.props.onSend(out);
+	handlerSave(e){
+		if(this.state.comment.length > 0 && !this.state.isLoading){
+			if(this.props.parent != null){
+				if(this.props.parent.isChild)
+					this.state.comment.parent_id = this.props.parent.parent_id;
+				else
+					this.state.comment.parent = this.props.parent;
+			}
+			this.props.onSend(e, this.state.comment);
+
+			if(this.props.getNewComment)
+				this.setState({comment: this.props.getNewComment()});
 		}
+	}
+
+	get isReply(){
+		return (this.state.comment.isChild || this.props.parent !== null);
 	}
 
 	render(){
 		if(this.state.user === null)
 			return '';
 
-		var classes = ['c-i comment-new'],
+		let classes = ['c-i comment-new'],
 			limit = '',
 			limitClass = ['char-counter trns-2'];
 
-		if(this.props.parent_id != null)
+		if(this.isReply)
 			classes.push('reply-comment second');
 		else
 			classes.push('c-a-s');
 
-		if(this.state.message.length > 0)
+		if(this.state.comment.length > 0)
 			classes.push('focus');
 
-		if(maxLengthMessage >= this.state.message.length)
-			limit = maxLengthMessage - this.state.message.length;
+		if(maxLengthMessage >= this.state.comment.length)
+			limit = maxLengthMessage - this.state.comment.length;
 
-		if(!this.state.isFocus || maxLengthMessage < this.state.message.length)
+		if(!this.state.isFocus || maxLengthMessage < this.state.comment.length)
 			limitClass.push('hidden');
 
 		return React.createElement("div", {className: classes.join(" ")},
-			React.createElement("div", {className: 'ava'}, React.createElement("img", {src: this.state.user.avatar})),
+			React.createElement("div", {className: 'ava'}, React.createElement("img", {src: this.state.comment.avatar})),
 			React.createElement("div", {className: 'c-t-b'},
 				React.createElement("div", {className: 't-b-h shadow-inner'},
 					React.createElement("label", {}, "Введите текст комментария"),
 					React.createElement("textarea", {
 						className: 'comment-message',
 						ref: 'message',
-						value: this.state.message,
+						value: this.state.comment,
 						onChange: this.handlerChange.bind(this),
 						onFocus: this.handlerFocus.bind(this),
 						onBlur: this.handlerFocus.bind(this),
@@ -98,9 +100,9 @@ class CommentForm extends React.Component {
 				React.createElement("div", {className: 'c-btn-holder'},
 					React.createElement("button", {
 							className: 'btn',
-							disabled: (this.state.message.length < 1),
-							onClick: this.handlerSend,
-							onMouseDown: this.handlerSend
+							disabled: (this.state.comment.length < 1),
+							onClick: this.handlerSave.bind(this)/*,
+							onMouseDown: this.handlerSave.bind(this)*/
 						},
 						React.createElement("i", {},
 							((!this.props.isEdit) ? "Отправить" : "Сохранить")
@@ -112,11 +114,12 @@ class CommentForm extends React.Component {
 	}
 }
 CommentForm.defaultProps = {
-	id: null,
-	parent_id: null,
-	forUser: null,
-	message: '',
+	primary: false,
+	parent: null,
+	user: null,
+	comment: null,
 	isFocus: false,
+	getNewComment: false,
 	onFocus: function(){},
 	onSend: function(){}
 };
